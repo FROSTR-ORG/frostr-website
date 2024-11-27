@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Binary, Code2, Snowflake, Network, KeyRound, BuildingIcon, GitFork } from 'lucide-react';
+import { Binary, Code2, Snowflake, Network, KeyRound, BuildingIcon, GitFork, CheckCircle2 } from 'lucide-react';
 
 const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 const PROJECT_NUMBER = 2;
@@ -97,19 +97,25 @@ export default function ProjectBoard() {
   }, []);
 
   const separateSprintAndBacklogItems = (items) => {
-    const sprintItems = [];
+    const activeSprintItems = [];
+    const completedItems = [];
     const backlogItems = [];
 
     items.nodes.forEach(item => {
       const isSprintItem = item.content?.assignees || item.content?.state || item.content?.url;
+      
       if (isSprintItem) {
-        sprintItems.push(item);
+        if (item.content?.state === 'CLOSED') {
+          completedItems.push(item);
+        } else {
+          activeSprintItems.push(item);
+        }
       } else {
         backlogItems.push(item);
       }
     });
 
-    return { sprintItems, backlogItems };
+    return { activeSprintItems, completedItems, backlogItems };
   };
 
   return (
@@ -224,7 +230,7 @@ export default function ProjectBoard() {
                 <h2 className="text-2xl font-semibold text-gray-200">Active Sprint Items</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {separateSprintAndBacklogItems(projectData.items).sprintItems.map((item, index) => (
+                {separateSprintAndBacklogItems(projectData.items).activeSprintItems.map((item, index) => (
                   <a 
                     key={index}
                     href={item.content?.url}
@@ -249,6 +255,65 @@ export default function ProjectBoard() {
                           {item.content?.assignees?.nodes?.[0] && (
                             <div className="flex items-center gap-2">
                               <span className="text-gray-500">Assignee:</span>
+                              <span className="font-mono text-[#00f0ff]">
+                                @{item.content.assignees.nodes[0].login}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        {item.content?.labels?.nodes?.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mt-4">
+                            {item.content.labels.nodes.map((label) => (
+                              <span
+                                key={label.name}
+                                className="px-2 py-1 text-xs rounded-full font-medium border"
+                                style={{
+                                  backgroundColor: `#${label.color}15`,
+                                  borderColor: `#${label.color}30`,
+                                  color: `#${label.color}`
+                                }}
+                              >
+                                {label.name}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="w-6 h-6 text-[#00ff95]" />
+                <h2 className="text-2xl font-semibold text-gray-200">Completed Sprint Items</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {separateSprintAndBacklogItems(projectData.items).completedItems.map((item, index) => (
+                  <a 
+                    key={index}
+                    href={item.content?.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block transform hover:scale-[1.02] transition-all duration-300"
+                  >
+                    <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
+                      <CardContent className="p-6 relative z-10">
+                        <h3 className="font-semibold text-lg mb-4 text-gray-200">
+                          {item.content.title}
+                        </h3>
+                        <div className="space-y-3 text-sm text-gray-400">
+                          {item.content?.number && (
+                            <div className="font-mono">#{item.content.number}</div>
+                          )}
+                          <div className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]">
+                            {item.content.state}
+                          </div>
+                          {item.content?.assignees?.nodes?.[0] && (
+                            <div className="flex items-center gap-2">
+                              <span className="text-gray-500">Completed by:</span>
                               <span className="font-mono text-[#00f0ff]">
                                 @{item.content.assignees.nodes[0].login}
                               </span>
