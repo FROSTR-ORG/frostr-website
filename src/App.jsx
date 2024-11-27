@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Binary, Code2, Snowflake, Network, KeyRound, BuildingIcon, GitFork, CheckCircle2 } from 'lucide-react';
+import { Binary, Code2, Snowflake, Network, KeyRound, BuildingIcon, GitFork, CheckCircle2, BookA, Key } from 'lucide-react';
 
 const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 const PROJECT_NUMBER = 2;
@@ -169,59 +169,72 @@ export default function ProjectBoard() {
 
               {/* Architecture Section */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <BuildingIcon className="w-5 h-5 text-[#00ff95]" />
-                  <h2 className="text-lg font-semibold text-gray-200">Architecture</h2>
+                {/* Libraries */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <BookA className="w-5 h-5 text-[#00ff95]" />
+                    <h3 className="text-md text-gray-200 font-semibold">Libraries</h3>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <a 
+                      href="https://github.com/cmdruid/frost"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
+                        <span className="text-[#00f0ff] font-mono">@cmdcode/frost</span>
+                      </div>
+                      <p className="text-gray-400 text-sm">Flexible, round-optimized threshold signature library for BIP340 taproot. Created by @cmdruid.</p>
+                    </a>
+                    <a 
+                      href="https://github.com/frostr-org/bifrost"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
+                        <span className="text-[#00f0ff] font-mono">Bifrost</span>
+                      </div>
+                      <p className="text-gray-400 text-sm">FROSTR cryptography and protocol library (built on top of @cmdcode/frost)</p>
+                    </a>
+                  </div>
                 </div>
-                <div className="grid md:grid-cols-2 gap-4">
-                <a 
-                    href="https://github.com/cmdruid/frost"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                  >
-                    <div className="flex items-center gap-2">
-                      <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                      <span className="text-[#00f0ff] font-mono">@cmdcode/frost</span>
-                    </div>
-                    <p className="text-gray-400 text-sm">Flexible, round-optimized threshold signature library for BIP340 taproot. Created by @cmdruid.</p>
-                  </a>
-                  <a 
-                    href="https://github.com/frostr-org/bifrost"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                  >
-                    <div className="flex items-center gap-2">
-                      <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                      <span className="text-[#00f0ff] font-mono">Bifrost</span>
-                    </div>
-                    <p className="text-gray-400 text-sm">FROSTR cryptography and protocol library</p>
-                  </a>
-                  <a 
-                    href="https://github.com/frostr-org/igloo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                  >
-                    <div className="flex items-center gap-2">
-                      <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                      <span className="text-[#00f0ff] font-mono">Igloo</span>
-                    </div>
-                    <p className="text-gray-400 text-sm">Desktop key management app & signing device</p>
-                  </a>
-                  <a 
-                    href="https://github.com/frostr-org/frost2x"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                  >
-                    <div className="flex items-center gap-2">
-                      <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                      <span className="text-[#00f0ff] font-mono">Frost2x</span>
-                    </div>
-                    <p className="text-gray-400 text-sm">Browser signing extension (forked from nos2x)</p>
-                  </a>
+
+                {/* Signing Clients */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Key className="w-5 h-5 text-[#00ff95]" />
+                    <h3 className="text-md text-gray-200 font-semibold">Signing Clients</h3>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <a 
+                      href="https://github.com/frostr-org/igloo"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
+                        <span className="text-[#00f0ff] font-mono">Igloo</span>
+                      </div>
+                      <p className="text-gray-400 text-sm">Desktop key management app & signing device</p>
+                    </a>
+                    <a 
+                      href="https://github.com/frostr-org/frost2x"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
+                        <span className="text-[#00f0ff] font-mono">Frost2x</span>
+                      </div>
+                      <p className="text-gray-400 text-sm">Browser signing extension (forked from nos2x)</p>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
