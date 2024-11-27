@@ -174,6 +174,18 @@ export default function ProjectBoard() {
                   <h2 className="text-lg font-semibold text-gray-200">Architecture</h2>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
+                <a 
+                    href="https://github.com/cmdruid/frost"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
+                  >
+                    <div className="flex items-center gap-2">
+                      <GitFork className="w-4 h-4 text-[#00f0ff]" />
+                      <span className="text-[#00f0ff] font-mono">@cmdcode/frost</span>
+                    </div>
+                    <p className="text-gray-400 text-sm">Flexible, round-optimized threshold signature library for BIP340 taproot. Created by @cmdruid.</p>
+                  </a>
                   <a 
                     href="https://github.com/frostr-org/bifrost"
                     target="_blank"
