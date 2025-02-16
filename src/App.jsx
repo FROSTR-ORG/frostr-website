@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Binary, Code2, Snowflake, Network, KeyRound, BuildingIcon, GitFork, CheckCircle2, BookA, Key } from 'lucide-react';
+import { Binary, Code2, Snowflake, Network, KeyRound, GitFork, CheckCircle2, BookA, Key } from 'lucide-react';
 
 const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 const PROJECT_NUMBER = 2;
