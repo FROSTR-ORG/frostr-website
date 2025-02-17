@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Binary, Code2, Snowflake, Network, KeyRound, GitFork, CheckCircle2, BookA, Key } from 'lucide-react';
+import { Binary, Code2, Network, KeyRound, GitFork, CheckCircle2, BookA, Key } from 'lucide-react';
+import frostrLogo from '/frostr-logo-transparent.png';
 
 const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 const PROJECT_NUMBER = 2;
@@ -126,8 +127,12 @@ export default function ProjectBoard() {
         <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
           <CardHeader className="border-b border-[#ffffff0f]">
             <div className="flex items-center gap-3">
-              <div className="relative w-8 h-8">
-                <Snowflake className="w-8 h-8 text-[#00ff95] absolute inset-0" />
+              <div className="relative w-12 h-12">
+                <img 
+                  src={frostrLogo} 
+                  alt="Frostr Logo" 
+                  className="w-12 h-12 absolute inset-0"
+                />
               </div>
               <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00ff95] to-[#00f0ff] font-mono">
                 Frostr
