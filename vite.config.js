@@ -13,7 +13,9 @@ export default defineConfig({
     },
   },
   server: {
-    cors: false,
+    cors: {
+      origin: 'localhost',
+    },
     hmr: {
       protocol: 'ws',
       host: 'localhost'
