@@ -13,17 +13,17 @@ export default defineConfig({
     },
   },
   server: {
+    cors: false,
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost'
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
       }
-    },
-    cors: {
-      origin: ['http://localhost:5173'],
-      methods: ['GET', 'POST'],
-      credentials: true
     }
   }
 })
