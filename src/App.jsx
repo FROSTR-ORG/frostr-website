@@ -205,6 +205,18 @@ export default function ProjectBoard() {
                       </div>
                       <p className="text-gray-400 text-sm">FROSTR cryptography and protocol library (built on top of @cmdcode/frost)</p>
                     </a>
+                    <a 
+                      href="https://github.com/cmdruid/nostr-p2p"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
+                        <span className="text-[#00f0ff] font-mono">nostr-p2p</span>
+                      </div>
+                      <p className="text-gray-400 text-sm">Nostr client SDK for creating peer-to-peer protocols.</p>
+                    </a>
                   </div>
                 </div>
 
@@ -225,7 +237,7 @@ export default function ProjectBoard() {
                         <GitFork className="w-4 h-4 text-[#00f0ff]" />
                         <span className="text-[#00f0ff] font-mono">Igloo</span>
                       </div>
-                      <p className="text-gray-400 text-sm">Desktop key management app & signing device</p>
+                      <p className="text-gray-400 text-sm">Desktop Frostr keyset manager and remote signer</p>
                     </a>
                     <a 
                       href="https://github.com/frostr-org/frost2x"
