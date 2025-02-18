@@ -103,14 +103,17 @@ export default function ProjectBoard() {
     const backlogItems = [];
 
     items.nodes.forEach(item => {
-      const isSprintItem = item.content?.assignees || item.content?.state || item.content?.url;
-      
-      if (isSprintItem) {
-        if (item.content?.state === 'CLOSED') {
-          completedItems.push(item);
-        } else {
-          activeSprintItems.push(item);
-        }
+      // Find status by checking all field values
+      const status = item.fieldValues.nodes.find(node => 
+        node.name === 'Done' || 
+        node.name === 'In progress' || 
+        node.name === 'Todo'
+      )?.name?.toLowerCase() || '';
+
+      if (status === 'done') {
+        completedItems.push(item);
+      } else if (status === 'in progress' || status === 'todo') {
+        activeSprintItems.push(item);
       } else {
         backlogItems.push(item);
       }
@@ -126,17 +129,28 @@ export default function ProjectBoard() {
       <div className="relative max-w-7xl mx-auto p-6 md:p-8 space-y-8">
         <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
           <CardHeader className="border-b border-[#ffffff0f]">
-            <div className="flex items-center gap-3">
-              <div className="relative w-12 h-12">
-                <img 
-                  src={frostrLogo} 
-                  alt="Frostr Logo" 
-                  className="w-12 h-12 absolute inset-0"
-                />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="relative w-12 h-12">
+                  <img 
+                    src={frostrLogo} 
+                    alt="Frostr Logo" 
+                    className="w-12 h-12 absolute inset-0"
+                  />
+                </div>
+                <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00ff95] to-[#00f0ff] font-mono">
+                  Frostr
+                </h1>
               </div>
-              <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00ff95] to-[#00f0ff] font-mono">
-                Frostr
-              </h1>
+              <a 
+                href="https://github.com/FROSTR-ORG"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-400 hover:text-[#00f0ff] transition-colors"
+              >
+                <GitFork className="w-5 h-5" />
+                <span>GitHub Organization</span>
+              </a>
             </div>
           </CardHeader>
           <CardContent className="space-y-8 pt-6">
@@ -280,11 +294,11 @@ export default function ProjectBoard() {
           <>
             <div className="space-y-6">
               <div className="flex items-center gap-3">
-                <Network className="w-6 h-6 text-[#00f0ff]" />
-                <h2 className="text-2xl font-semibold text-gray-200">Active Sprint Items</h2>
+                <CheckCircle2 className="w-6 h-6 text-[#00ff95]" />
+                <h2 className="text-2xl font-semibold text-gray-200">Completed Sprint Items</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {separateSprintAndBacklogItems(projectData.items).activeSprintItems.map((item, index) => (
+                {separateSprintAndBacklogItems(projectData.items).completedItems.map((item, index) => (
                   <a 
                     key={index}
                     href={item.content?.url}
@@ -301,14 +315,16 @@ export default function ProjectBoard() {
                           {item.content?.number && (
                             <div className="font-mono">#{item.content.number}</div>
                           )}
-                          {item.content?.state && (
-                            <div className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]">
-                              {item.content.state}
-                            </div>
-                          )}
+                          <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            item.content.state === 'CLOSED' 
+                              ? 'bg-[#8957e520] text-[#8957e5] border border-[#8957e540]'
+                              : 'bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]'
+                          }`}>
+                            {item.content.state}
+                          </div>
                           {item.content?.assignees?.nodes?.[0] && (
                             <div className="flex items-center gap-2">
-                              <span className="text-gray-500">Assignee:</span>
+                              <span className="text-gray-500">Completed by:</span>
                               <span className="font-mono text-[#00f0ff]">
                                 @{item.content.assignees.nodes[0].login}
                               </span>
@@ -341,11 +357,11 @@ export default function ProjectBoard() {
 
             <div className="space-y-6">
               <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-6 h-6 text-[#00ff95]" />
-                <h2 className="text-2xl font-semibold text-gray-200">Completed Sprint Items</h2>
+                <Network className="w-6 h-6 text-[#00f0ff]" />
+                <h2 className="text-2xl font-semibold text-gray-200">Active Sprint Items</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {separateSprintAndBacklogItems(projectData.items).completedItems.map((item, index) => (
+                {separateSprintAndBacklogItems(projectData.items).activeSprintItems.map((item, index) => (
                   <a 
                     key={index}
                     href={item.content?.url}
@@ -362,12 +378,18 @@ export default function ProjectBoard() {
                           {item.content?.number && (
                             <div className="font-mono">#{item.content.number}</div>
                           )}
-                          <div className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]">
-                            {item.content.state}
-                          </div>
+                          {item.content?.state && (
+                            <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                              item.content.state === 'CLOSED' 
+                                ? 'bg-[#8957e520] text-[#8957e5] border border-[#8957e540]'
+                                : 'bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]'
+                            }`}>
+                              {item.content.state}
+                            </div>
+                          )}
                           {item.content?.assignees?.nodes?.[0] && (
                             <div className="flex items-center gap-2">
-                              <span className="text-gray-500">Completed by:</span>
+                              <span className="text-gray-500">Assignee:</span>
                               <span className="font-mono text-[#00f0ff]">
                                 @{item.content.assignees.nodes[0].login}
                               </span>
