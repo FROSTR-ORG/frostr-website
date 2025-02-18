@@ -251,6 +251,18 @@ export default function ProjectBoard() {
                       </div>
                       <p className="text-gray-400 text-sm">Browser signing extension (forked from nos2x)</p>
                     </a>
+                    <a 
+                      href="https://github.com/frostr-org/heimdall"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
+                        <span className="text-[#00f0ff] font-mono">Heimdall</span>
+                      </div>
+                      <p className="text-gray-400 text-sm">A server-less authentication bridge for your FROSTR key.</p>
+                    </a>
                   </div>
                 </div>
               </div>
