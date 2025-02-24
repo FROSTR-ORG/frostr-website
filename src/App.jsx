@@ -203,9 +203,21 @@ export default function ProjectBoard() {
                     >
                       <div className="flex items-center gap-2">
                         <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                        <span className="text-[#00f0ff] font-mono">@cmdcode/frost</span>
+                        <span className="text-[#00f0ff] font-mono">Frost</span>
                       </div>
-                      <p className="text-gray-400 text-sm">Flexible, round-optimized threshold signature library for BIP340 taproot. Created by @cmdruid.</p>
+                      <p className="text-gray-400 text-sm">Core cryptography library that implements FROST primitives</p>
+                    </a>
+                    <a 
+                      href="https://github.com/cmdruid/nostr-p2p"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
+                        <span className="text-[#00f0ff] font-mono">Nostr-P2P</span>
+                      </div>
+                      <p className="text-gray-400 text-sm">Reference node and SDK for communicating peer-to-peer over nostr</p>
                     </a>
                     <a 
                       href="https://github.com/frostr-org/bifrost"
@@ -217,19 +229,7 @@ export default function ProjectBoard() {
                         <GitFork className="w-4 h-4 text-[#00f0ff]" />
                         <span className="text-[#00f0ff] font-mono">Bifrost</span>
                       </div>
-                      <p className="text-gray-400 text-sm">FROSTR cryptography and protocol library (built on top of @cmdcode/frost)</p>
-                    </a>
-                    <a 
-                      href="https://github.com/cmdruid/nostr-p2p"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                        <span className="text-[#00f0ff] font-mono">nostr-p2p</span>
-                      </div>
-                      <p className="text-gray-400 text-sm">Nostr client SDK for creating peer-to-peer protocols.</p>
+                      <p className="text-gray-400 text-sm">Reference p2p client and implementation of FROSTR protocol</p>
                     </a>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ export default function ProjectBoard() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
                     <Key className="w-5 h-5 text-[#00ff95]" />
-                    <h3 className="text-md text-gray-200 font-semibold">Signing Clients</h3>
+                    <h3 className="text-md text-gray-200 font-semibold">Clients</h3>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4">
                     <a 
@@ -251,7 +251,7 @@ export default function ProjectBoard() {
                         <GitFork className="w-4 h-4 text-[#00f0ff]" />
                         <span className="text-[#00f0ff] font-mono">Igloo</span>
                       </div>
-                      <p className="text-gray-400 text-sm">Desktop Frostr keyset manager and remote signer</p>
+                      <p className="text-gray-400 text-sm">Desktop key management app & signing device</p>
                     </a>
                     <a 
                       href="https://github.com/frostr-org/frost2x"
@@ -266,6 +266,26 @@ export default function ProjectBoard() {
                       <p className="text-gray-400 text-sm">Browser signing extension (forked from nos2x)</p>
                     </a>
                     <a 
+                      href="#"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] transition-all duration-200 relative z-10 cursor-not-allowed"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-gray-500" />
+                        <span className="text-gray-500 font-mono">Frostbite (TBA)</span>
+                      </div>
+                      <p className="text-gray-500 text-sm">Mobile signing device using NIP-46</p>
+                    </a>
+                    <a 
+                      href="#"
+                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] transition-all duration-200 relative z-10 cursor-not-allowed"
+                    >
+                      <div className="flex items-center gap-2">
+                        <GitFork className="w-4 h-4 text-gray-500" />
+                        <span className="text-gray-500 font-mono">Permafrost (TBA)</span>
+                      </div>
+                      <p className="text-gray-500 text-sm">Reference node application for server environments</p>
+                    </a>
+                    <a 
                       href="https://github.com/frostr-org/heimdall"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -275,7 +295,7 @@ export default function ProjectBoard() {
                         <GitFork className="w-4 h-4 text-[#00f0ff]" />
                         <span className="text-[#00f0ff] font-mono">Heimdall</span>
                       </div>
-                      <p className="text-gray-400 text-sm">A server-less authentication bridge for your FROSTR key.</p>
+                      <p className="text-gray-400 text-sm">API gateway and signer for server-less environments</p>
                     </a>
                   </div>
                 </div>
