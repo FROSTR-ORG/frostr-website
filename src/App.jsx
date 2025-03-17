@@ -1,17 +1,128 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Binary, Code2, Network, KeyRound, GitFork, CheckCircle2, BookA, Key } from 'lucide-react';
+import { GitFork, CheckCircle2, Network, Binary } from 'lucide-react';
 import frostrLogo from '/frostr-logo-transparent.png';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import PropTypes from 'prop-types';
 
 const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 const PROJECT_NUMBER = 2;
 const ORG = 'FROSTR-ORG';
 const GITHUB_API_KEY = import.meta.env.VITE_GITHUB_API_KEY;
 
+const MarkdownComponents = {
+  h1: function MarkdownH1(props) { return <h1 className="text-3xl font-bold mt-8 mb-4 text-gray-100 first:mt-0" {...props} />; },
+  h2: function MarkdownH2(props) { return <h2 className="text-2xl font-semibold mt-6 mb-3 text-gray-200" {...props} />; },
+  h3: function MarkdownH3(props) { return <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-300" {...props} />; },
+  p: function MarkdownP(props) {
+    const sectionMatch = props.children?.[0]?.match?.(/^(`[^`]+`)\s*:\s*(.+)$/);
+    if (sectionMatch) {
+      return (
+        <div className="flex items-start gap-4 mb-4">
+          <div className="flex-shrink-0 w-32 text-[#00ff95]">
+            <code className="bg-[#ffffff10] rounded px-1 py-0.5 font-mono">{sectionMatch[1].slice(1, -1)}</code>
+            <span className="text-gray-300 ml-1">:</span>
+          </div>
+          <p className="text-gray-300 flex-1">{sectionMatch[2]}</p>
+        </div>
+      );
+    }
+    return <p className="text-gray-300 mb-4 leading-relaxed" {...props} />;
+  },
+  ul: function MarkdownUl(props) { return <ul className="list-none space-y-2 mb-4" {...props} />; },
+  li: function MarkdownLi(props) {
+    return (
+      <li className="text-gray-300 flex items-start">
+        <span className="mr-2 mt-2 h-1.5 w-1.5 rounded-full bg-gray-400 flex-shrink-0" />
+        <span>{props.children}</span>
+      </li>
+    );
+  },
+  a: function MarkdownA(props) {
+    return (
+      <a 
+        className="text-[#00f0ff] hover:text-[#00ff95] transition-colors" 
+        target="_blank"
+        rel="noopener noreferrer"
+        {...props}
+      />
+    );
+  },
+  code: function MarkdownCode({inline, ...props}) {
+    return inline ? (
+      <code className="bg-[#ffffff10] rounded px-1 py-0.5 font-mono text-[#00ff95]" {...props} />
+    ) : (
+      <code className="block bg-[#ffffff10] rounded p-4 font-mono text-[#00ff95] mb-4" {...props} />
+    );
+  }
+};
+
+MarkdownComponents.h1.propTypes = { children: PropTypes.node };
+MarkdownComponents.h2.propTypes = { children: PropTypes.node };
+MarkdownComponents.h3.propTypes = { children: PropTypes.node };
+MarkdownComponents.p.propTypes = { children: PropTypes.arrayOf(PropTypes.node) };
+MarkdownComponents.ul.propTypes = { children: PropTypes.node };
+MarkdownComponents.li.propTypes = { children: PropTypes.node };
+MarkdownComponents.a.propTypes = { children: PropTypes.node };
+MarkdownComponents.code.propTypes = { 
+  children: PropTypes.node,
+  inline: PropTypes.bool
+};
+
 export default function ProjectBoard() {
   const [projectData, setProjectData] = useState(null);
+  const [orgData, setOrgData] = useState(null);
   const [error, setError] = useState(null);
+
+  const fetchOrgData = async () => {
+    setError(null);
+    const query = `
+      query {
+        organization(login: "${ORG}") {
+          name
+          description
+          repositories(first: 10) {
+            nodes {
+              name
+              description
+              url
+              stargazerCount
+            }
+          }
+          repository(name: ".github") {
+            object(expression: "master:profile/README.md") {
+              ... on Blob {
+                text
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    try {
+      const response = await fetch(GITHUB_GRAPHQL_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `bearer ${GITHUB_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      const data = await response.json();
+
+      if (data.errors) {
+        throw new Error(data.errors[0].message);
+      }
+
+      setOrgData(data.data.organization);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   // Keeping the existing data fetching logic unchanged
   const fetchProjectData = async () => {
@@ -94,6 +205,7 @@ export default function ProjectBoard() {
   };
 
   useEffect(() => {
+    fetchOrgData();
     fetchProjectData();
   }, []);
 
@@ -139,168 +251,31 @@ export default function ProjectBoard() {
                   />
                 </div>
                 <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00ff95] to-[#00f0ff] font-mono">
-                  Frostr
+                  {orgData?.name || 'FROSTR Protocol'}
                 </h1>
               </div>
               <a 
-                href="https://github.com/FROSTR-ORG"
+                href={`https://github.com/${ORG}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-[#00f0ff] transition-colors"
+                className="flex items-center gap-2 text-gray-300 hover:text-[#00f0ff] transition-colors"
               >
                 <GitFork className="w-5 h-5" />
                 <span>GitHub Organization</span>
               </a>
             </div>
           </CardHeader>
-          <CardContent className="space-y-8 pt-6">
-            <div className="space-y-6">
-              <p className="text-lg text-gray-400 flex items-center gap-2">
-                <Code2 className="w-5 h-5 text-[#00ff95]" />
-                Simple t-of-n remote signing and key rotation protocol for nostr, using the powers of FROST.
-              </p>
-              
-              {/* Key Features Section */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <KeyRound className="w-5 h-5 text-[#00ff95]" />
-                  <h2 className="text-lg font-semibold text-gray-200">Key Features</h2>
-                </div>
-                <ul className="grid md:grid-cols-2 gap-3 text-gray-400">
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#00ff95]">•</span>
-                    Break up your secret key into decentralized, distributable shares
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#00ff95]">•</span>
-                    Sign messages using t-of-n signing devices
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#00ff95]">•</span>
-                    If one share is compromised, your secret key is still safe
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#00ff95]">•</span>
-                    Discard and replace shares without changing your identity
-                  </li>
-                </ul>
-              </div>
-
-              {/* Architecture Section */}
-              <div className="space-y-4">
-                {/* Libraries */}
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <BookA className="w-5 h-5 text-[#00ff95]" />
-                    <h3 className="text-md text-gray-200 font-semibold">Libraries</h3>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <a 
-                      href="https://github.com/cmdruid/frost"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                        <span className="text-[#00f0ff] font-mono">Frost</span>
-                      </div>
-                      <p className="text-gray-400 text-sm">Core cryptography library that implements FROST primitives</p>
-                    </a>
-                    <a 
-                      href="https://github.com/cmdruid/nostr-p2p"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                        <span className="text-[#00f0ff] font-mono">Nostr-P2P</span>
-                      </div>
-                      <p className="text-gray-400 text-sm">Reference node and SDK for communicating peer-to-peer over nostr</p>
-                    </a>
-                    <a 
-                      href="https://github.com/frostr-org/bifrost"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                        <span className="text-[#00f0ff] font-mono">Bifrost</span>
-                      </div>
-                      <p className="text-gray-400 text-sm">Reference p2p client and implementation of FROSTR protocol</p>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Signing Clients */}
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <Key className="w-5 h-5 text-[#00ff95]" />
-                    <h3 className="text-md text-gray-200 font-semibold">Clients</h3>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <a 
-                      href="https://github.com/frostr-org/igloo"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                        <span className="text-[#00f0ff] font-mono">Igloo</span>
-                      </div>
-                      <p className="text-gray-400 text-sm">Desktop key management app & signing device</p>
-                    </a>
-                    <a 
-                      href="https://github.com/frostr-org/frost2x"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                        <span className="text-[#00f0ff] font-mono">Frost2x</span>
-                      </div>
-                      <p className="text-gray-400 text-sm">Browser signing extension (forked from nos2x)</p>
-                    </a>
-                    <a 
-                      href="#"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] transition-all duration-200 relative z-10 cursor-not-allowed"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-gray-500" />
-                        <span className="text-gray-500 font-mono">Frostbite (TBA)</span>
-                      </div>
-                      <p className="text-gray-500 text-sm">Mobile signing device using NIP-46</p>
-                    </a>
-                    <a 
-                      href="#"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] transition-all duration-200 relative z-10 cursor-not-allowed"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-gray-500" />
-                        <span className="text-gray-500 font-mono">Permafrost (TBA)</span>
-                      </div>
-                      <p className="text-gray-500 text-sm">Reference node application for server environments</p>
-                    </a>
-                    <a 
-                      href="https://github.com/frostr-org/heimdall"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block space-y-2 p-3 rounded-lg bg-[#ffffff05] hover:bg-[#ffffff15] transition-all duration-200 relative z-10"
-                    >
-                      <div className="flex items-center gap-2">
-                        <GitFork className="w-4 h-4 text-[#00f0ff]" />
-                        <span className="text-[#00f0ff] font-mono">Heimdall</span>
-                      </div>
-                      <p className="text-gray-400 text-sm">API gateway and signer for server-less environments</p>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <CardContent className="prose prose-invert max-w-none p-8">
+            {orgData?.repository?.object?.text ? (
+              <ReactMarkdown 
+                remarkPlugins={[remarkGfm]}
+                components={MarkdownComponents}
+              >
+                {orgData.repository.object.text}
+              </ReactMarkdown>
+            ) : (
+              <p className="text-gray-300">Loading...</p>
+            )}
           </CardContent>
         </Card>
 
@@ -310,7 +285,7 @@ export default function ProjectBoard() {
           </Alert>
         )}
 
-        {projectData && (
+                {projectData && (
           <>
             <div className="space-y-6">
               <div className="flex items-center gap-3">
