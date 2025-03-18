@@ -238,7 +238,7 @@ export default function ProjectBoard() {
     <div className="min-h-screen bg-[#0a0f1a] bg-opacity-95 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-transparent to-[#0a0f1a]" />
       
-      <div className="relative max-w-7xl mx-auto p-6 md:p-8 space-y-8">
+      <div className="relative max-w-7xl mx-auto p-6 md:p-8 space-y-8 max-md:p-2">
         <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
           <CardHeader className="border-b border-[#ffffff0f]">
             <div className="flex items-center justify-between">
