@@ -251,7 +251,7 @@ export default function ProjectBoard() {
                   />
                 </div>
                 <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00ff95] to-[#00f0ff] font-mono">
-                  {orgData?.name || 'FROSTR Protocol'}
+                  FROSTR
                 </h1>
               </div>
               <a 
