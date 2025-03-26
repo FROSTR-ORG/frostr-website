@@ -22,14 +22,14 @@ const MarkdownComponents = {
       return (
         <div className="flex items-start gap-4 mb-4">
           <div className="flex-shrink-0 w-32 text-[#00ff95]">
-            <code className="bg-[#ffffff10] rounded px-1 py-0.5 font-mono">{sectionMatch[1].slice(1, -1)}</code>
+            <code className="bg-[#ffffff10] rounded px-1.5 font-mono align-baseline">{sectionMatch[1].slice(1, -1)}</code>
             <span className="text-gray-300 ml-1">:</span>
           </div>
           <p className="text-gray-300 flex-1">{sectionMatch[2]}</p>
         </div>
       );
     }
-    return <p className="text-gray-300 mb-4 leading-relaxed" {...props} />;
+    return <p className="text-gray-300 mb-4 leading-relaxed [&>code]:align-baseline [&>code]:inline [&>code]:leading-none" {...props} />;
   },
   ul: function MarkdownUl(props) { return <ul className="list-none space-y-2 mb-4" {...props} />; },
   li: function MarkdownLi(props) {
@@ -52,7 +52,7 @@ const MarkdownComponents = {
   },
   code: function MarkdownCode({inline, ...props}) {
     return inline ? (
-      <code className="bg-[#ffffff10] rounded px-1 py-0.5 font-mono text-[#00ff95]" {...props} />
+      <code className="bg-[#ffffff10] rounded px-1.5 py-0.5 font-mono text-[#00ff95] inline leading-none align-baseline" {...props} />
     ) : (
       <code className="block bg-[#ffffff10] rounded p-4 font-mono text-[#00ff95] mb-4" {...props} />
     );
