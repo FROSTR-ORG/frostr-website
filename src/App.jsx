@@ -91,6 +91,15 @@ export default function ProjectBoard() {
               stargazerCount
             }
           }
+          membersWithRole(first: 10) {
+            nodes {
+              login
+              name
+              avatarUrl
+              url
+              bio
+            }
+          }
           repository(name: ".github") {
             object(expression: "master:profile/README.md") {
               ... on Blob {
@@ -278,6 +287,48 @@ export default function ProjectBoard() {
             )}
           </CardContent>
         </Card>
+
+        {orgData?.membersWithRole?.nodes?.length > 0 && (
+          <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden">
+            <CardHeader className="border-b border-[#ffffff0f]">
+              <h2 className="text-2xl font-semibold text-gray-200">Project Maintainers</h2>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {orgData.membersWithRole.nodes.map((member) => (
+                  <a
+                    key={member.login}
+                    href={member.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block transform hover:scale-[1.02] transition-all duration-300"
+                  >
+                    <Card className="border-0 bg-[#ffffff05] hover:bg-[#ffffff08] transition-colors">
+                      <CardContent className="p-4">
+                        <div className="flex items-center gap-4">
+                          <img
+                            src={member.avatarUrl}
+                            alt={member.login}
+                            className="w-12 h-12 rounded-full ring-2 ring-[#00f0ff]/20"
+                          />
+                          <div>
+                            <h3 className="font-semibold text-[#00f0ff]">
+                              {member.name || member.login}
+                            </h3>
+                            <p className="text-sm text-gray-400 font-mono">@{member.login}</p>
+                          </div>
+                        </div>
+                        {member.bio && (
+                          <p className="mt-3 text-sm text-gray-300 line-clamp-2">{member.bio}</p>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </a>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {error && (
           <Alert variant="destructive" className="bg-red-900/20 border border-red-500/50 text-red-200">
