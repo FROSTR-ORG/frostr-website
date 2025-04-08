@@ -91,11 +91,19 @@ const mediaItems = [
   },
   {
     title: "NOSTR is a MASSIVE Paradigm Shift! PlebDevs and Frostr with Austin - bitcoinplebdev",
-    thumbnail: "https://i.ytimg.com/vi/ebCGWjA29VE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBLof5gHOVUJu0IAj_JyMThJt83XA",
+    thumbnail: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts122/v4/1d/f5/18/1df51805-c794-9b88-baff-fc792b387f82/mza_3353292383421474951.jpg/1200x1200bf-60.jpg",
     description: "NOSTR Is a MASSIVE Paradigm Shift! i am joined by bitcoiner and dev Austin from pleb devs and he breaks down what he's done and what he's working on with nostr and it is not only bullishAF but mind blowing!. an awesome interview of pure bitcoin builder signal.",
     link: "https://www.youtube.com/watch?v=ebCGWjA29VE",
     source: "Pleb Underground",
     type: "Video"
+  },
+  {
+    title: "What is Frostr?",
+    thumbnail: "https://thebitcoinmanual.com/wp-content/uploads/2025/03/frostr.png",
+    description: "the Bitcoin Manual explains Frostr",
+    link: "https://thebitcoinmanual.com/articles/frostr/",
+    source: "The Bitcoin Manual",
+    type: "Article"
   }
 ];
 
@@ -357,13 +365,6 @@ export default function ProjectBoard() {
                       alt={mediaItem.title}
                       className="w-full h-full object-cover"
                     />
-                    {mediaItem.type === "Video" && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-80">
-                        <div className="w-16 h-16 rounded-full bg-[#00ff95] bg-opacity-80 flex items-center justify-center">
-                          <div className="w-0 h-0 border-t-8 border-t-transparent border-l-14 border-l-white border-b-8 border-b-transparent ml-1"></div>
-                        </div>
-                      </div>
-                    )}
                   </div>
                   <CardContent className="p-5">
                     <div className="flex items-center justify-between mb-2">
