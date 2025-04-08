@@ -569,7 +569,10 @@ export default function ProjectBoard() {
       <div className="relative max-w-7xl mx-auto p-6 md:p-8 space-y-8 max-md:p-2">
         {/* Header with Tabs */}
         <div className="flex items-center justify-between border-b border-[#ffffff1a] pb-4">
-          <div className="flex items-center gap-3">
+          <div 
+            className="flex items-center gap-3 cursor-pointer" 
+            onClick={() => setActiveTab("about")}
+          >
             <div className="relative w-10 h-10">
               <img 
                 src={frostrLogo} 
