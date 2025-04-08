@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { GitFork, CheckCircle2, Network, Binary } from 'lucide-react';
+import { GitFork, CheckCircle2, Network, Binary, ExternalLink, BookOpen, Music, Video as VideoIcon, Menu, X } from 'lucide-react';
 import frostrLogo from '/frostr-logo-transparent.png';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -71,10 +71,40 @@ MarkdownComponents.code.propTypes = {
   inline: PropTypes.bool
 };
 
+// Media items data
+const mediaItems = [
+  {
+    title: "No Password Reset? How Frostr Saves Your Nostr Identity",
+    thumbnail: "https://plebdevs-bucket.nyc3.cdn.digitaloceanspaces.com/images/frostr-bitcoin-magazine.png",
+    description: "Born out of a hackathon at TABCONF 2024, Frostr may have just solved Nostr's most pernicious issue: the inability to reset your password if your private key gets compromised.",
+    link: "https://bitcoinmagazine.com/business/no-password-reset-how-frostr-saves-your-nostr-identity",
+    source: "Bitcoin Magazine",
+    type: "Article"
+  },
+  {
+    title: "Frostr Explained",
+    thumbnail: "https://i.scdn.co/image/ab6765630000ba8ac6d48028ef9d5ba0483dc08a",
+    description: "New TGFN episode is out, in which @cmd and @bitcoinplebdev tell us about FROSTR — stick around past the end credits for a bonus segment, in which they trash @fiatjaf's promenade project.",
+    link: "https://fountain.fm/episode/gWYJ5PgxwzdnBjuNuzyc",
+    source: "Thank God For Nostr Podcast",
+    type: "Podcast"
+  },
+  {
+    title: "NOSTR is a MASSIVE Paradigm Shift! PlebDevs and Frostr with Austin - bitcoinplebdev",
+    thumbnail: "https://i.ytimg.com/vi/ebCGWjA29VE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBLof5gHOVUJu0IAj_JyMThJt83XA",
+    description: "NOSTR Is a MASSIVE Paradigm Shift! i am joined by bitcoiner and dev Austin from pleb devs and he breaks down what he's done and what he's working on with nostr and it is not only bullishAF but mind blowing!. an awesome interview of pure bitcoin builder signal.",
+    link: "https://www.youtube.com/watch?v=ebCGWjA29VE",
+    source: "Pleb Underground",
+    type: "Video"
+  }
+];
+
 export default function ProjectBoard() {
   const [projectData, setProjectData] = useState(null);
   const [orgData, setOrgData] = useState(null);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("about");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const fetchOrgData = async () => {
     setError(null);
@@ -243,256 +273,437 @@ export default function ProjectBoard() {
     return { activeSprintItems, completedItems, backlogItems };
   };
 
+  const renderAboutTab = () => (
+    <>
+      <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
+        <CardContent className="prose prose-invert max-w-none p-8">
+          {orgData?.repository?.object?.text ? (
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]}
+              components={MarkdownComponents}
+            >
+              {orgData.repository.object.text}
+            </ReactMarkdown>
+          ) : (
+            <p className="text-gray-300">Loading...</p>
+          )}
+        </CardContent>
+      </Card>
+
+      {orgData?.membersWithRole?.nodes?.length > 0 && (
+        <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden mt-8">
+          <CardHeader className="border-b border-[#ffffff0f]">
+            <h2 className="text-2xl font-semibold text-gray-200">Project Maintainers</h2>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {orgData.membersWithRole.nodes.map((member) => (
+                <a
+                  key={member.login}
+                  href={member.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block transform hover:scale-[1.02] transition-all duration-300"
+                >
+                  <Card className="border-0 bg-[#ffffff05] hover:bg-[#ffffff08] transition-colors">
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={member.avatarUrl}
+                          alt={member.login}
+                          className="w-12 h-12 rounded-full ring-2 ring-[#00f0ff]/20"
+                        />
+                        <div>
+                          <h3 className="font-semibold text-[#00f0ff]">
+                            {member.name || member.login}
+                          </h3>
+                          <p className="text-sm text-gray-400 font-mono">@{member.login}</p>
+                        </div>
+                      </div>
+                      {member.bio && (
+                        <p className="mt-3 text-sm text-gray-300 line-clamp-2">{member.bio}</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </a>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </>
+  );
+
+  const renderMediaTab = () => (
+    <>
+      <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
+        <CardHeader className="border-b border-[#ffffff0f]">
+          <h2 className="text-2xl font-semibold text-gray-200">Media Coverage</h2>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {mediaItems.map((mediaItem, index) => (
+              <a
+                key={index}
+                href={mediaItem.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transform hover:scale-[1.02] transition-all duration-300"
+              >
+                <Card className="h-full border-0 bg-[#ffffff05] hover:bg-[#ffffff08] transition-colors overflow-hidden">
+                  <div className="aspect-video w-full overflow-hidden relative">
+                    <img
+                      src={mediaItem.thumbnail}
+                      alt={mediaItem.title}
+                      className="w-full h-full object-cover"
+                    />
+                    {mediaItem.type === "Video" && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-80">
+                        <div className="w-16 h-16 rounded-full bg-[#00ff95] bg-opacity-80 flex items-center justify-center">
+                          <div className="w-0 h-0 border-t-8 border-t-transparent border-l-14 border-l-white border-b-8 border-b-transparent ml-1"></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-sm font-medium px-2 py-1 rounded flex items-center gap-1.5 ${
+                        mediaItem.type === "Article" 
+                          ? "text-[#00ff95] bg-[#00ff9515]" 
+                          : mediaItem.type === "Podcast"
+                            ? "text-[#ff9500] bg-[#ff950015]"
+                            : "text-[#ff00f0] bg-[#ff00f015]"
+                      }`}>
+                        {mediaItem.type === "Article" && <BookOpen className="w-3.5 h-3.5" />}
+                        {mediaItem.type === "Podcast" && <Music className="w-3.5 h-3.5" />}
+                        {mediaItem.type === "Video" && <VideoIcon className="w-3.5 h-3.5" />}
+                        {mediaItem.type}
+                      </span>
+                      <span className="text-sm text-gray-400">{mediaItem.source}</span>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-200 mb-3">{mediaItem.title}</h3>
+                    <p className="text-sm text-gray-300 line-clamp-3 mb-4">{mediaItem.description}</p>
+                    <div className="flex items-center text-[#00f0ff] text-sm">
+                      <ExternalLink className="w-4 h-4 mr-1" />
+                      <span>
+                        {mediaItem.type === "Article" && "Read More"}
+                        {mediaItem.type === "Podcast" && "Listen"}
+                        {mediaItem.type === "Video" && "Watch"}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </>
+  );
+
+  const renderRoadmapTab = () => (
+    projectData && (
+      <>
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <CheckCircle2 className="w-6 h-6 text-[#00ff95]" />
+            <h2 className="text-2xl font-semibold text-gray-200">Completed Sprint Items</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {separateSprintAndBacklogItems(projectData.items).completedItems.map((item, index) => (
+              <a 
+                key={index}
+                href={item.content?.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transform hover:scale-[1.02] transition-all duration-300"
+              >
+                <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
+                  <CardContent className="p-6 relative z-10">
+                    <h3 className="font-semibold text-lg mb-4 text-gray-200">
+                      {item.content.title}
+                    </h3>
+                    <div className="space-y-3 text-sm text-gray-400">
+                      {item.content?.number && (
+                        <div className="font-mono">#{item.content.number}</div>
+                      )}
+                      <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                        item.content.state === 'CLOSED' 
+                          ? 'bg-[#8957e520] text-[#8957e5] border border-[#8957e540]'
+                          : 'bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]'
+                      }`}>
+                        {item.content.state}
+                      </div>
+                      {item.content?.assignees?.nodes?.[0] && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-500">Completed by:</span>
+                          <span className="font-mono text-[#00f0ff]">
+                            @{item.content.assignees.nodes[0].login}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    {item.content?.labels?.nodes?.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-4">
+                        {item.content.labels.nodes.map((label) => (
+                          <span
+                            key={label.name}
+                            className="px-2 py-1 text-xs rounded-full font-medium border"
+                            style={{
+                              backgroundColor: `#${label.color}15`,
+                              borderColor: `#${label.color}30`,
+                              color: `#${label.color}`
+                            }}
+                          >
+                            {label.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-6 mt-8">
+          <div className="flex items-center gap-3">
+            <Network className="w-6 h-6 text-[#00f0ff]" />
+            <h2 className="text-2xl font-semibold text-gray-200">Active Sprint Items</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {separateSprintAndBacklogItems(projectData.items).activeSprintItems.map((item, index) => (
+              <a 
+                key={index}
+                href={item.content?.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transform hover:scale-[1.02] transition-all duration-300"
+              >
+                <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
+                  <CardContent className="p-6 relative z-10">
+                    <h3 className="font-semibold text-lg mb-4 text-gray-200">
+                      {item.content.title}
+                    </h3>
+                    <div className="space-y-3 text-sm text-gray-400">
+                      {item.content?.number && (
+                        <div className="font-mono">#{item.content.number}</div>
+                      )}
+                      {item.content?.state && (
+                        <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                          item.content.state === 'CLOSED' 
+                            ? 'bg-[#8957e520] text-[#8957e5] border border-[#8957e540]'
+                            : 'bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]'
+                        }`}>
+                          {item.content.state}
+                        </div>
+                      )}
+                      {item.content?.assignees?.nodes?.[0] && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-500">Assignee:</span>
+                          <span className="font-mono text-[#00f0ff]">
+                            @{item.content.assignees.nodes[0].login}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    {item.content?.labels?.nodes?.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-4">
+                        {item.content.labels.nodes.map((label) => (
+                          <span
+                            key={label.name}
+                            className="px-2 py-1 text-xs rounded-full font-medium border"
+                            style={{
+                              backgroundColor: `#${label.color}15`,
+                              borderColor: `#${label.color}30`,
+                              color: `#${label.color}`
+                            }}
+                          >
+                            {label.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-6 mt-8">
+          <div className="flex items-center gap-3">
+            <Binary className="w-6 h-6 text-[#00f0ff]" />
+            <h2 className="text-2xl font-semibold text-gray-200">Backlog</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {separateSprintAndBacklogItems(projectData.items).backlogItems.map((item, index) => (
+              <a 
+                key={index} 
+                href="https://github.com/orgs/FROSTR-ORG/projects/2/views/1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transform hover:scale-[1.02] transition-all duration-300"
+              >
+                <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
+                  <CardContent className="p-6">
+                    <h3 className="font-medium text-lg text-gray-200">
+                      {item.content?.title || 'Untitled Item'}
+                    </h3>
+                  </CardContent>
+                </Card>
+              </a>
+            ))}
+          </div>
+        </div>
+      </>
+    )
+  );
+
   return (
     <div className="min-h-screen bg-[#0a0f1a] bg-opacity-95 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-transparent to-[#0a0f1a]" />
       
       <div className="relative max-w-7xl mx-auto p-6 md:p-8 space-y-8 max-md:p-2">
-        <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
-          <CardHeader className="border-b border-[#ffffff0f]">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12">
-                  <img 
-                    src={frostrLogo} 
-                    alt="Frostr Logo" 
-                    className="w-12 h-12 absolute inset-0"
-                  />
-                </div>
-                <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00ff95] to-[#00f0ff] font-mono">
-                  FROSTR
-                </h1>
-              </div>
-              <a 
-                href={`https://github.com/${ORG}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-300 hover:text-[#00f0ff] transition-colors"
-              >
-                <GitFork className="w-5 h-5" />
-                <span>GitHub Organization</span>
-              </a>
+        {/* Header with Tabs */}
+        <div className="flex items-center justify-between border-b border-[#ffffff1a] pb-4">
+          <div className="flex items-center gap-3">
+            <div className="relative w-10 h-10">
+              <img 
+                src={frostrLogo} 
+                alt="Frostr Logo" 
+                className="w-10 h-10 absolute inset-0"
+              />
             </div>
-          </CardHeader>
-          <CardContent className="prose prose-invert max-w-none p-8">
-            {orgData?.repository?.object?.text ? (
-              <ReactMarkdown 
-                remarkPlugins={[remarkGfm]}
-                components={MarkdownComponents}
+            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00ff95] to-[#00f0ff] font-mono">
+              FROSTR
+            </h1>
+          </div>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex space-x-6">
+            <button
+              onClick={() => setActiveTab("about")}
+              className={`px-4 py-2 text-lg font-medium transition-colors ${
+                activeTab === "about"
+                  ? "text-[#00ff95] border-b-2 border-[#00ff95]"
+                  : "text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              About
+            </button>
+            <button
+              onClick={() => setActiveTab("media")}
+              className={`px-4 py-2 text-lg font-medium transition-colors ${
+                activeTab === "media"
+                  ? "text-[#00ff95] border-b-2 border-[#00ff95]"
+                  : "text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              Media
+            </button>
+            <button
+              onClick={() => setActiveTab("roadmap")}
+              className={`px-4 py-2 text-lg font-medium transition-colors ${
+                activeTab === "roadmap"
+                  ? "text-[#00ff95] border-b-2 border-[#00ff95]"
+                  : "text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              Roadmap
+            </button>
+          </div>
+          
+          {/* GitHub Link */}
+          <div className="flex items-center">
+            <a 
+              href={`https://github.com/${ORG}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-gray-300 hover:text-[#00f0ff] transition-colors"
+            >
+              <GitFork className="w-5 h-5" />
+              <span>GitHub</span>
+            </a>
+            
+            {/* Mobile Menu Button */}
+            <button 
+              className="ml-4 md:hidden text-gray-300 hover:text-[#00ff95] transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </div>
+        
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-[#161f33]/90 backdrop-blur-lg rounded-md shadow-lg border border-[#ffffff10] p-4 absolute z-50 left-2 right-2 mt-2 animate-in slide-in-from-top-5 duration-300">
+            <div className="flex flex-col space-y-3">
+              <button
+                onClick={() => {
+                  setActiveTab("about");
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-4 py-3 text-lg font-medium transition-colors rounded-md ${
+                  activeTab === "about"
+                    ? "bg-[#00ff9520] text-[#00ff95]"
+                    : "text-gray-300 hover:bg-[#ffffff10]"
+                }`}
               >
-                {orgData.repository.object.text}
-              </ReactMarkdown>
-            ) : (
-              <p className="text-gray-300">Loading...</p>
-            )}
-          </CardContent>
-        </Card>
-
-        {orgData?.membersWithRole?.nodes?.length > 0 && (
-          <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden">
-            <CardHeader className="border-b border-[#ffffff0f]">
-              <h2 className="text-2xl font-semibold text-gray-200">Project Maintainers</h2>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {orgData.membersWithRole.nodes.map((member) => (
-                  <a
-                    key={member.login}
-                    href={member.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block transform hover:scale-[1.02] transition-all duration-300"
-                  >
-                    <Card className="border-0 bg-[#ffffff05] hover:bg-[#ffffff08] transition-colors">
-                      <CardContent className="p-4">
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={member.avatarUrl}
-                            alt={member.login}
-                            className="w-12 h-12 rounded-full ring-2 ring-[#00f0ff]/20"
-                          />
-                          <div>
-                            <h3 className="font-semibold text-[#00f0ff]">
-                              {member.name || member.login}
-                            </h3>
-                            <p className="text-sm text-gray-400 font-mono">@{member.login}</p>
-                          </div>
-                        </div>
-                        {member.bio && (
-                          <p className="mt-3 text-sm text-gray-300 line-clamp-2">{member.bio}</p>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </a>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                About
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab("media");
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-4 py-3 text-lg font-medium transition-colors rounded-md ${
+                  activeTab === "media"
+                    ? "bg-[#00ff9520] text-[#00ff95]"
+                    : "text-gray-300 hover:bg-[#ffffff10]"
+                }`}
+              >
+                Media
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab("roadmap");
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-4 py-3 text-lg font-medium transition-colors rounded-md ${
+                  activeTab === "roadmap"
+                    ? "bg-[#00ff9520] text-[#00ff95]"
+                    : "text-gray-300 hover:bg-[#ffffff10]"
+                }`}
+              >
+                Roadmap
+              </button>
+            </div>
+          </div>
         )}
 
+        {/* Error Alert */}
         {error && (
           <Alert variant="destructive" className="bg-red-900/20 border border-red-500/50 text-red-200">
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
 
-                {projectData && (
-          <>
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-6 h-6 text-[#00ff95]" />
-                <h2 className="text-2xl font-semibold text-gray-200">Completed Sprint Items</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {separateSprintAndBacklogItems(projectData.items).completedItems.map((item, index) => (
-                  <a 
-                    key={index}
-                    href={item.content?.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block transform hover:scale-[1.02] transition-all duration-300"
-                  >
-                    <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
-                      <CardContent className="p-6 relative z-10">
-                        <h3 className="font-semibold text-lg mb-4 text-gray-200">
-                          {item.content.title}
-                        </h3>
-                        <div className="space-y-3 text-sm text-gray-400">
-                          {item.content?.number && (
-                            <div className="font-mono">#{item.content.number}</div>
-                          )}
-                          <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                            item.content.state === 'CLOSED' 
-                              ? 'bg-[#8957e520] text-[#8957e5] border border-[#8957e540]'
-                              : 'bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]'
-                          }`}>
-                            {item.content.state}
-                          </div>
-                          {item.content?.assignees?.nodes?.[0] && (
-                            <div className="flex items-center gap-2">
-                              <span className="text-gray-500">Completed by:</span>
-                              <span className="font-mono text-[#00f0ff]">
-                                @{item.content.assignees.nodes[0].login}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                        {item.content?.labels?.nodes?.length > 0 && (
-                          <div className="flex flex-wrap gap-2 mt-4">
-                            {item.content.labels.nodes.map((label) => (
-                              <span
-                                key={label.name}
-                                className="px-2 py-1 text-xs rounded-full font-medium border"
-                                style={{
-                                  backgroundColor: `#${label.color}15`,
-                                  borderColor: `#${label.color}30`,
-                                  color: `#${label.color}`
-                                }}
-                              >
-                                {label.name}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Network className="w-6 h-6 text-[#00f0ff]" />
-                <h2 className="text-2xl font-semibold text-gray-200">Active Sprint Items</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {separateSprintAndBacklogItems(projectData.items).activeSprintItems.map((item, index) => (
-                  <a 
-                    key={index}
-                    href={item.content?.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block transform hover:scale-[1.02] transition-all duration-300"
-                  >
-                    <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
-                      <CardContent className="p-6 relative z-10">
-                        <h3 className="font-semibold text-lg mb-4 text-gray-200">
-                          {item.content.title}
-                        </h3>
-                        <div className="space-y-3 text-sm text-gray-400">
-                          {item.content?.number && (
-                            <div className="font-mono">#{item.content.number}</div>
-                          )}
-                          {item.content?.state && (
-                            <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                              item.content.state === 'CLOSED' 
-                                ? 'bg-[#8957e520] text-[#8957e5] border border-[#8957e540]'
-                                : 'bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]'
-                            }`}>
-                              {item.content.state}
-                            </div>
-                          )}
-                          {item.content?.assignees?.nodes?.[0] && (
-                            <div className="flex items-center gap-2">
-                              <span className="text-gray-500">Assignee:</span>
-                              <span className="font-mono text-[#00f0ff]">
-                                @{item.content.assignees.nodes[0].login}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                        {item.content?.labels?.nodes?.length > 0 && (
-                          <div className="flex flex-wrap gap-2 mt-4">
-                            {item.content.labels.nodes.map((label) => (
-                              <span
-                                key={label.name}
-                                className="px-2 py-1 text-xs rounded-full font-medium border"
-                                style={{
-                                  backgroundColor: `#${label.color}15`,
-                                  borderColor: `#${label.color}30`,
-                                  color: `#${label.color}`
-                                }}
-                              >
-                                {label.name}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Binary className="w-6 h-6 text-[#00f0ff]" />
-                <h2 className="text-2xl font-semibold text-gray-200">Backlog</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {separateSprintAndBacklogItems(projectData.items).backlogItems.map((item, index) => (
-                  <a 
-                    key={index} 
-                    href="https://github.com/orgs/FROSTR-ORG/projects/2/views/1"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block transform hover:scale-[1.02] transition-all duration-300"
-                  >
-                    <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
-                      <CardContent className="p-6">
-                        <h3 className="font-medium text-lg text-gray-200">
-                          {item.content?.title || 'Untitled Item'}
-                        </h3>
-                      </CardContent>
-                    </Card>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
+        {/* Tab Content */}
+        <div className="mt-6">
+          {activeTab === "about" 
+            ? renderAboutTab() 
+            : activeTab === "media" 
+              ? renderMediaTab()
+              : renderRoadmapTab()
+          }
+        </div>
       </div>
     </div>
   );
