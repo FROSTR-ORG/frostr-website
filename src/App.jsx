@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { GitFork, CheckCircle2, Network, Binary, ExternalLink, BookOpen, Music, Video as VideoIcon, Menu, X } from 'lucide-react';
+import { GitFork, CheckCircle2, Network, Binary, ExternalLink, BookOpen, Music, Video as VideoIcon, Menu, X, Radio } from 'lucide-react';
 import frostrLogo from '/frostr-logo-transparent.png';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -90,20 +90,20 @@ const mediaItems = [
     type: "Podcast"
   },
   {
+    title: "Frostr.org: Solving Nostr's Biggest Problem",
+    thumbnail: "/frostr-bitcoin-magazine-space.png",
+    description: "Featured on Bitcoin Magazine's Space discussing Frostr, a project addressing critical challenges in the Nostr ecosystem. Speaking alongside JuanGalt and Topher.",
+    link: "https://x.com/i/spaces/1LyxBWYBbMLKN/peek",
+    source: "Bitcoin Magazine",
+    type: "Space"
+  },
+  {
     title: "NOSTR is a MASSIVE Paradigm Shift! PlebDevs and Frostr with Austin - bitcoinplebdev",
-    thumbnail: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts122/v4/1d/f5/18/1df51805-c794-9b88-baff-fc792b387f82/mza_3353292383421474951.jpg/1200x1200bf-60.jpg",
+    thumbnail: "https://i.ytimg.com/vi/ebCGWjA29VE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBLof5gHOVUJu0IAj_JyMThJt83XA",
     description: "NOSTR Is a MASSIVE Paradigm Shift! i am joined by bitcoiner and dev Austin from pleb devs and he breaks down what he's done and what he's working on with nostr and it is not only bullishAF but mind blowing!. an awesome interview of pure bitcoin builder signal.",
     link: "https://www.youtube.com/watch?v=ebCGWjA29VE",
     source: "Pleb Underground",
     type: "Video"
-  },
-  {
-    title: "What is Frostr?",
-    thumbnail: "https://thebitcoinmanual.com/wp-content/uploads/2025/03/frostr.png",
-    description: "the Bitcoin Manual explains Frostr",
-    link: "https://thebitcoinmanual.com/articles/frostr/",
-    source: "The Bitcoin Manual",
-    type: "Article"
   }
 ];
 
@@ -373,11 +373,14 @@ export default function ProjectBoard() {
                           ? "text-[#00ff95] bg-[#00ff9515]" 
                           : mediaItem.type === "Podcast"
                             ? "text-[#ff9500] bg-[#ff950015]"
-                            : "text-[#ff00f0] bg-[#ff00f015]"
+                            : mediaItem.type === "Video"
+                              ? "text-[#ff00f0] bg-[#ff00f015]"
+                              : "text-[#1d9bf0] bg-[#1d9bf015]"
                       }`}>
                         {mediaItem.type === "Article" && <BookOpen className="w-3.5 h-3.5" />}
                         {mediaItem.type === "Podcast" && <Music className="w-3.5 h-3.5" />}
                         {mediaItem.type === "Video" && <VideoIcon className="w-3.5 h-3.5" />}
+                        {mediaItem.type === "Space" && <Radio className="w-3.5 h-3.5" />}
                         {mediaItem.type}
                       </span>
                       <span className="text-sm text-gray-400">{mediaItem.source}</span>
@@ -390,6 +393,7 @@ export default function ProjectBoard() {
                         {mediaItem.type === "Article" && "Read More"}
                         {mediaItem.type === "Podcast" && "Listen"}
                         {mediaItem.type === "Video" && "Watch"}
+                        {mediaItem.type === "Space" && "Join Space"}
                       </span>
                     </div>
                   </CardContent>
