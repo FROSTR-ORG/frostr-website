@@ -93,7 +93,7 @@ const mediaItems = [
     title: "Frostr.org: Solving Nostr's Biggest Problem",
     thumbnail: "/frostr-bitcoin-magazine-space.png",
     description: "Featured on Bitcoin Magazine's Space discussing Frostr, a project addressing critical challenges in the Nostr ecosystem. Speaking alongside JuanGalt and Topher.",
-    link: "https://x.com/i/spaces/1LyxBWYBbMLKN/peek",
+    link: "https://creators.spotify.com/pod/show/bitcoin-magazine-po/episodes/FROSTR-Explained-A-Gamechanger-for-NOSTR-Identity-Management--The-Juan-Galt-Show-e30op20",
     source: "Bitcoin Magazine",
     type: "Space"
   },
