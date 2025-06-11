@@ -3,6 +3,14 @@ import { ExternalLink, BookOpen, Music, Video as VideoIcon, Radio } from 'lucide
 
 const mediaItems = [
   {
+    title: "Frostr Workshop - Bitcoin 2025 Vegas",
+    thumbnail: "https://plebdevs-bucket.nyc3.cdn.digitaloceanspaces.com/images/frostr-vegas-workshop.png",
+    description: "Austin & Topher's FROSTR workshop. Walking through the basics of the protocol and going through a live demo with the audience (signing a 6/12 nostr multisig note live!)",
+    link: "https://www.youtube.com/watch?v=J1WG_InBsHg",
+    source: "Bitcoin 2025",
+    type: "Video"
+  },
+  {
     title: "No Password Reset? How Frostr Saves Your Nostr Identity",
     thumbnail: "https://plebdevs-bucket.nyc3.cdn.digitaloceanspaces.com/images/frostr-bitcoin-magazine.png",
     description: "Born out of a hackathon at TABCONF 2024, Frostr may have just solved Nostr's most pernicious issue: the inability to reset your password if your private key gets compromised.",
