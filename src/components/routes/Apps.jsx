@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { ExternalLink, Computer, Globe, Puzzle } from 'lucide-react';
+import { ExternalLink, Computer, Globe, Puzzle, Server } from 'lucide-react';
 
 const appItems = [
   {
@@ -32,6 +32,16 @@ const appItems = [
     ],
     icon: <Globe className="w-8 h-8 text-[#00f0ff]" />,
     type: "Web App"
+  },
+  {
+    title: "Igloo Server",
+    description: "A server-based signing device and personal ephemeral relay for the FROSTR protocol. Self-hostable with web UI for configuration and monitoring.",
+    links: [
+      { label: "View on GitHub", url: "https://github.com/FROSTR-ORG/igloo-server" },
+      { label: "View Releases", url: "https://github.com/FROSTR-ORG/igloo-server/releases" }
+    ],
+    icon: <Server className="w-8 h-8 text-[#00f0ff]" />,
+    type: "Server"
   }
 ];
 
@@ -43,6 +53,8 @@ const getAppTypeStyles = (type) => {
       return "text-[#ff9500] bg-[#ff950015]";
     case "Web App":
       return "text-[#00f0ff] bg-[#00f0ff15]";
+    case "Server":
+      return "text-[#ff0095] bg-[#ff009515]";
     default:
       return "text-gray-300 bg-gray-700";
   }
