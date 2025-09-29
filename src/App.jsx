@@ -10,6 +10,7 @@ const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 const PROJECT_NUMBER = 2;
 const ORG = 'FROSTR-ORG';
 const GITHUB_API_KEY = import.meta.env.VITE_GITHUB_API_KEY;
+const ROADMAP_ENABLED = false;
 
 export default function App() {
   const [projectData, setProjectData] = useState(null);
@@ -154,17 +155,21 @@ export default function App() {
 
   useEffect(() => {
     fetchOrgData();
-    fetchProjectData();
+    if (ROADMAP_ENABLED) {
+      fetchProjectData();
+    }
   }, []);
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout error={error} />}>
+        <Route path="/" element={<Layout error={error} roadmapEnabled={ROADMAP_ENABLED} />}>
           <Route index element={<About orgData={orgData} />} />
           <Route path="apps" element={<Apps />} />
           <Route path="media" element={<Media />} />
-          <Route path="roadmap" element={<Roadmap projectData={projectData} />} />
+          {ROADMAP_ENABLED && (
+            <Route path="roadmap" element={<Roadmap projectData={projectData} />} />
+          )}
         </Route>
       </Routes>
     </Router>

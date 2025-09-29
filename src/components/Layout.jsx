@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const ORG = 'FROSTR-ORG';
 
-function Layout({ error }) {
+function Layout({ error, roadmapEnabled = true }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -69,18 +69,20 @@ function Layout({ error }) {
             >
               Media
             </NavLink>
-            <NavLink
-              to="/roadmap"
-              className={({ isActive }) =>
-                `px-4 py-2 text-lg font-medium transition-colors ${
-                  isActive
-                    ? "text-[#00ff95] border-b-2 border-[#00ff95]"
-                    : "text-gray-400 hover:text-gray-200"
-                }`
-              }
-            >
-              Roadmap
-            </NavLink>
+            {roadmapEnabled && (
+              <NavLink
+                to="/roadmap"
+                className={({ isActive }) =>
+                  `px-4 py-2 text-lg font-medium transition-colors ${
+                    isActive
+                      ? "text-[#00ff95] border-b-2 border-[#00ff95]"
+                      : "text-gray-400 hover:text-gray-200"
+                  }`
+                }
+              >
+                Roadmap
+              </NavLink>
+            )}
           </div>
           
           {/* GitHub Link */}
@@ -153,19 +155,21 @@ function Layout({ error }) {
               >
                 Media
               </NavLink>
-              <NavLink
-                to="/roadmap"
-                onClick={() => setMobileMenuOpen(false)}
-                className={({ isActive }) =>
-                  `px-4 py-3 text-lg font-medium transition-colors rounded-md ${
-                    isActive
-                      ? "bg-[#00ff9520] text-[#00ff95]"
-                      : "text-gray-300 hover:bg-[#ffffff10]"
-                  }`
-                }
-              >
-                Roadmap
-              </NavLink>
+              {roadmapEnabled && (
+                <NavLink
+                  to="/roadmap"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `px-4 py-3 text-lg font-medium transition-colors rounded-md ${
+                      isActive
+                        ? "bg-[#00ff9520] text-[#00ff95]"
+                        : "text-gray-300 hover:bg-[#ffffff10]"
+                    }`
+                  }
+                >
+                  Roadmap
+                </NavLink>
+              )}
             </div>
           </div>
         )}
@@ -187,7 +191,8 @@ function Layout({ error }) {
 }
 
 Layout.propTypes = {
-  error: PropTypes.string
+  error: PropTypes.string,
+  roadmapEnabled: PropTypes.bool
 };
 
 export default Layout; 
