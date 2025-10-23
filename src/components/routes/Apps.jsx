@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { ExternalLink, Computer, Globe, Puzzle, Server } from 'lucide-react';
+import { ExternalLink, Computer, Globe, Puzzle, Server, Terminal } from 'lucide-react';
 
 const appItems = [
   {
@@ -11,6 +11,16 @@ const appItems = [
     ],
     icon: <Computer className="w-8 h-8 text-[#00f0ff]" />,
     type: "Desktop App"
+  },
+  {
+    title: "Igloo CLI",
+    description: "A command-line utility for scaffolding and managing FROSTR projects. Discover it on npm or browse the source code.",
+    links: [
+      { label: "View on npm", url: "https://www.npmjs.com/package/igloo-cli" },
+      { label: "View on GitHub", url: "https://github.com/FROSTR-ORG/igloo-cli" }
+    ],
+    icon: <Terminal className="w-8 h-8 text-[#00f0ff]" />,
+    type: "CLI Tool"
   },
   {
     title: "Frost2x",
@@ -55,6 +65,8 @@ const getAppTypeStyles = (type) => {
       return "text-[#00f0ff] bg-[#00f0ff15]";
     case "Server":
       return "text-[#ff0095] bg-[#ff009515]";
+    case "CLI Tool":
+      return "text-[#b47aff] bg-[#b47aff15]";
     default:
       return "text-gray-300 bg-gray-700";
   }
