@@ -16,7 +16,7 @@ const appItems = [
     title: "Igloo CLI",
     description: "A command-line utility for scaffolding and managing FROSTR projects. Discover it on npm or browse the source code.",
     links: [
-      { label: "View on npm", url: "https://www.npmjs.com/package/igloo-cli" },
+      { label: "View on npm", url: "https://www.npmjs.com/package/@frostr/igloo-cli" },
       { label: "View on GitHub", url: "https://github.com/FROSTR-ORG/igloo-cli" }
     ],
     icon: <Terminal className="w-8 h-8 text-[#00f0ff]" />,
