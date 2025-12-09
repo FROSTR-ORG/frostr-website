@@ -34,11 +34,11 @@ const appItems = [
     type: "Browser Extension"
   },
   {
-    title: "Frostr Web Demo",
-    description: "A basic web demonstration of a FROSTR node in action. Try it live or explore the source code.",
+    title: "Igloo Web",
+    description: "The official FROSTR web signer. A browser-based signing device for the FROSTR protocol.",
     links: [
-      { label: "View Live Demo", url: "https://frostr-org.github.io/web-demo/" },
-      { label: "View on GitHub", url: "https://github.com/FROSTR-ORG/web-demo" }
+      { label: "Open App", url: "https://iglooweb.app" },
+      { label: "View on GitHub", url: "https://github.com/frostr-org/igloo-web" }
     ],
     icon: <Globe className="w-8 h-8 text-[#00f0ff]" />,
     type: "Web App"
@@ -52,6 +52,19 @@ const appItems = [
     ],
     icon: <Server className="w-8 h-8 text-[#00f0ff]" />,
     type: "Server"
+  }
+];
+
+const legacyItems = [
+  {
+    title: "Frostr Web Demo",
+    description: "A basic web demonstration of a FROSTR node in action. Try it live or explore the source code.",
+    links: [
+      { label: "View Live Demo", url: "https://frostr-org.github.io/web-demo/" },
+      { label: "View on GitHub", url: "https://github.com/FROSTR-ORG/web-demo" }
+    ],
+    icon: <Globe className="w-8 h-8 text-[#00f0ff]" />,
+    type: "Web App"
   }
 ];
 
@@ -102,10 +115,10 @@ function Apps() {
                   <p className="text-sm text-gray-300 line-clamp-3 mb-4 flex-grow">{appItem.description}</p>
                   <div className="mt-auto pt-4 space-y-2">
                     {appItem.links.map((link, linkIndex) => (
-                      <a 
-                        key={linkIndex} 
-                        href={link.url} 
-                        target="_blank" 
+                      <a
+                        key={linkIndex}
+                        href={link.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center text-[#00f0ff] hover:text-[#00ff95] transition-colors text-sm"
                       >
@@ -118,6 +131,51 @@ function Apps() {
               </Card>
             </a>
           ))}
+        </div>
+
+        {/* Legacy Section */}
+        <div className="mt-10 pt-8 border-t border-[#ffffff0f]">
+          <h3 className="text-lg font-medium text-gray-500 mb-4">Legacy</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-60">
+            {legacyItems.map((appItem, index) => (
+              <a
+                key={index}
+                href={appItem.links[0].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transform hover:scale-[1.02] transition-all duration-300"
+              >
+                <Card className="h-full border-0 bg-[#ffffff05] hover:bg-[#ffffff08] transition-colors overflow-hidden flex flex-col">
+                  <CardContent className="p-5 flex flex-col flex-grow">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        {appItem.icon}
+                        <h3 className="text-xl font-semibold text-gray-200">{appItem.title}</h3>
+                      </div>
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${getAppTypeStyles(appItem.type)}`}>
+                        {appItem.type}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-300 line-clamp-3 mb-4 flex-grow">{appItem.description}</p>
+                    <div className="mt-auto pt-4 space-y-2">
+                      {appItem.links.map((link, linkIndex) => (
+                        <a
+                          key={linkIndex}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center text-[#00f0ff] hover:text-[#00ff95] transition-colors text-sm"
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2 flex-shrink-0" />
+                          <span>{link.label}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            ))}
+          </div>
         </div>
       </CardContent>
     </Card>
