@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { ExternalLink, Computer, Globe, Puzzle, Server, Terminal, Library } from 'lucide-react';
+import { ExternalLink, Computer, Globe, Puzzle, Server, Terminal, Library, Smartphone } from 'lucide-react';
 
 const appItems = [
   {
@@ -11,6 +11,16 @@ const appItems = [
     ],
     icon: <Computer className="w-8 h-8 text-[#00f0ff]" />,
     type: "Desktop App"
+  },
+  {
+    title: "Igloo Android (alpha)",
+    description: "An Android signing app for FROSTR. Early alpha builds are available on GitHub releases.",
+    links: [
+      { label: "View Releases", url: "https://github.com/frostr-org/igloo-android/releases" },
+      { label: "View on GitHub", url: "https://github.com/frostr-org/igloo-android" }
+    ],
+    icon: <Smartphone className="w-8 h-8 text-[#00f0ff]" />,
+    type: "Mobile App"
   },
   {
     title: "Igloo CLI",
@@ -115,6 +125,8 @@ const getAppTypeStyles = (type) => {
       return "text-[#b47aff] bg-[#b47aff15]";
     case "Library":
       return "text-[#ffdd00] bg-[#ffdd0015]";
+    case "Mobile App":
+      return "text-[#00ffb3] bg-[#00ffb315]";
     default:
       return "text-gray-300 bg-gray-700";
   }
