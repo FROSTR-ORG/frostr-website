@@ -3,7 +3,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Smartphone, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
-import { generateKeypair, Nostr, decodePublicKey } from 'snstr';
+import {
+  decodePublicKey,
+  generateKeypair,
+  getEventHash,
+  getPublicKey,
+  getUnixTime,
+  Nostr,
+  signEvent
+} from 'snstr';
 // Import local browser-compatible NIP-04 encrypt (bypasses Vite module resolution issues)
 import { encrypt as encryptNIP04Web } from '@/utils/nip04-encrypt';
 
@@ -67,12 +75,25 @@ const RELAYS = [
 async function sendSignupDM(email) {
   // Generate ephemeral keypair
   const keys = await generateKeypair();
+  const senderPubkey = getPublicKey(keys.privateKey);
 
   // Create message content
   const message = `TestFlight Signup Request\nEmail: ${email}\nTimestamp: ${new Date().toISOString()}`;
 
   // Encrypt message using web-compatible NIP-04 (crypto-js based)
   const encryptedContent = encryptNIP04Web(keys.privateKey, TARGET_PUBKEY, message);
+
+  // Build a signed kind-4 event (relays reject unsigned events)
+  const unsignedEvent = {
+    kind: 4,
+    content: encryptedContent,
+    tags: [['p', TARGET_PUBKEY]],
+    pubkey: senderPubkey,
+    created_at: getUnixTime()
+  };
+  const id = await getEventHash(unsignedEvent);
+  const sig = await signEvent(id, keys.privateKey);
+  const signedEvent = { ...unsignedEvent, id, sig };
 
   // Create Nostr client and set the ephemeral private key
   const client = new Nostr(RELAYS);
@@ -81,21 +102,23 @@ async function sendSignupDM(email) {
   // Connect to relays
   await client.connectToRelays();
 
-  // Publish raw kind-4 DM event (bypasses the Node-only publishDirectMessage)
-  const event = await client.publishEvent({
-    kind: 4,
-    content: encryptedContent,
-    tags: [['p', TARGET_PUBKEY]],
-  });
+  // Publish signed kind-4 DM event
+  const publishResult = await client.publishEvent(signedEvent);
 
   // Disconnect
   client.disconnectFromRelays();
 
-  if (!event) {
-    throw new Error('Failed to publish signup to relays');
+  if (!publishResult?.success || !publishResult.event) {
+    const failures = publishResult?.relayResults
+      ? Array.from(publishResult.relayResults.entries())
+        .filter(([_, result]) => !result.success)
+        .map(([url, result]) => `${url}: ${result.reason || 'unknown error'}`)
+        .join('; ')
+      : 'unknown error';
+    throw new Error(`Failed to publish signup to relays (${failures})`);
   }
 
-  return event;
+  return publishResult.event;
 }
 
 function TestflightSignup() {
