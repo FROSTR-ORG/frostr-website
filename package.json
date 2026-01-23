@@ -20,6 +20,7 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.6.2",
     "remark-gfm": "^4.0.1",
+    "snstr": "^0.2.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -35,6 +36,7 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
+    "events": "^3.3.0",
     "globals": "^15.11.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14",

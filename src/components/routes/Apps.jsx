@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { ExternalLink, Computer, Globe, Puzzle, Server, Terminal, Library, Smartphone } from 'lucide-react';
+import TestflightSignup from '@/components/TestflightSignup';
 
 const appItems = [
   {
@@ -134,7 +135,9 @@ const getAppTypeStyles = (type) => {
 
 function Apps() {
   return (
-    <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
+    <>
+      <TestflightSignup />
+      <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
       <CardHeader className="border-b border-[#ffffff0f]">
         <h2 className="text-2xl font-semibold text-gray-200">FROSTR Applications</h2>
       </CardHeader>
@@ -271,6 +274,7 @@ function Apps() {
         </div>
       </CardContent>
     </Card>
+    </>
   );
 }
 
