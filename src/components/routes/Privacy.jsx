@@ -12,13 +12,13 @@ function Privacy() {
 
       <CardContent className="p-6 space-y-6 text-gray-300 leading-relaxed">
         <p>
-          This Privacy Policy describes how FROSTR and the Igloo iOS app handle information.
+          This Privacy Policy describes how FROSTR apps and related services handle information.
         </p>
 
         <section className="space-y-2">
           <h3 className="text-lg font-semibold text-gray-100">Summary</h3>
           <p>
-            Igloo is designed for threshold signing workflows. We do not provide advertising or third-party tracking in the app.
+            FROSTR apps are designed for threshold signing workflows. We do not provide advertising or third-party tracking in our apps.
           </p>
         </section>
 
@@ -29,7 +29,7 @@ function Privacy() {
               <strong>Credentials you import</strong> (for example, threshold credentials) are processed to run signer features.
             </li>
             <li>
-              <strong>Camera access</strong> is used only when you choose to scan QR codes for credential import.
+              <strong>Camera access</strong> is used only when you choose to scan QR codes for credential import in apps that support QR onboarding.
             </li>
             <li>
               <strong>App diagnostics/log data</strong> may be displayed in-app to help you understand signer state.
@@ -40,14 +40,14 @@ function Privacy() {
         <section className="space-y-2">
           <h3 className="text-lg font-semibold text-gray-100">How Data Is Stored</h3>
           <p>
-            App data required for signer operation is stored on-device, including secure storage mechanisms provided by iOS where applicable.
+            App data required for signer operation is stored according to platform capabilities, including secure storage mechanisms where applicable.
           </p>
         </section>
 
         <section className="space-y-2">
           <h3 className="text-lg font-semibold text-gray-100">Tracking and Advertising</h3>
           <p>
-            Igloo does not use third-party advertising SDKs and does not use app activity for cross-app tracking.
+            FROSTR apps do not use third-party advertising SDKs and do not use app activity for cross-app tracking.
           </p>
         </section>
 
@@ -61,7 +61,7 @@ function Privacy() {
         <section className="space-y-2">
           <h3 className="text-lg font-semibold text-gray-100">Your Choices</h3>
           <ul className="list-disc pl-6 space-y-1">
-            <li>You can revoke camera permission at any time in iOS Settings.</li>
+            <li>You can revoke camera permission at any time in your device settings.</li>
             <li>You can remove app data by uninstalling the app.</li>
           </ul>
         </section>
