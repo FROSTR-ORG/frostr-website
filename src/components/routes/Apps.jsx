@@ -1,44 +1,13 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import {
-  ArrowRight,
-  CalendarDays,
-  Computer,
-  ExternalLink,
-  Github,
-  Globe,
-  Library,
-  Puzzle,
-  Server,
-  ShieldCheck,
-  Smartphone,
-  Terminal
-} from 'lucide-react';
+import { Computer, ExternalLink, Globe, Library, Puzzle, Server, Smartphone, Terminal } from 'lucide-react';
 
 const IGLOO_SIGNER_LINKS = [
   { label: 'Download on App Store', url: 'https://apps.apple.com/us/app/igloo-signer/id6758069194' },
   { label: 'View iOS Source', url: 'https://github.com/FROSTR-ORG/igloo-ios' },
   { label: 'Visit frostr.org', url: 'https://frostr.org' },
   { label: 'Privacy Policy', to: '/privacy' }
-];
-
-const featuredStats = [
-  {
-    label: 'Status',
-    value: 'Live on the App Store',
-    icon: <ShieldCheck className="w-4 h-4 text-[#00ff95]" />
-  },
-  {
-    label: 'Released',
-    value: 'March 16, 2026',
-    icon: <CalendarDays className="w-4 h-4 text-[#00f0ff]" />
-  },
-  {
-    label: 'Platform',
-    value: 'iPhone and iPad',
-    icon: <Smartphone className="w-4 h-4 text-[#ffdd00]" />
-  }
 ];
 
 const appItems = [
@@ -267,79 +236,6 @@ function Apps() {
         </div>
       </CardHeader>
       <CardContent className="p-6">
-        <div className="grid grid-cols-1 xl:grid-cols-[1.1fr_0.9fr] gap-6 mb-10">
-          <Card className="border border-[#00f0ff30] bg-[radial-gradient(circle_at_top_left,_rgba(0,240,255,0.12),_transparent_45%),_#0c1424] overflow-hidden">
-            <CardContent className="p-6 md:p-8 h-full flex flex-col">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-2xl bg-[#00f0ff15] border border-[#00f0ff30]">
-                  <Smartphone className="w-7 h-7 text-[#00f0ff]" />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#00ff95]">New on iOS</p>
-                  <h3 className="text-3xl font-semibold text-white">Igloo Signer</h3>
-                </div>
-              </div>
-
-              <p className="text-base text-gray-200 max-w-2xl">
-                Igloo Signer for iPhone and iPad went live on the App Store on March 16, 2026. It turns an iOS device into a signing node for FROSTR with QR credential import, peer visibility, session logs, Demo Mode, and secure on-device storage.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
-                {featuredStats.map((stat) => (
-                  <div key={stat.label} className="rounded-2xl border border-[#ffffff12] bg-[#ffffff05] px-4 py-3">
-                    <div className="flex items-center gap-2 text-sm text-gray-300 mb-1">
-                      {stat.icon}
-                      <span>{stat.label}</span>
-                    </div>
-                    <p className="text-sm font-medium text-white">{stat.value}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto">
-                {IGLOO_SIGNER_LINKS.map((link, index) => (
-                  <AppLink
-                    key={link.label}
-                    link={link}
-                    className={`inline-flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                      index === 0
-                        ? 'bg-[#00f0ff] text-[#08111f] hover:bg-[#67f5ff]'
-                        : 'border border-[#ffffff14] bg-[#ffffff05] text-gray-100 hover:bg-[#ffffff0b]'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      {link.label === 'View iOS Source' ? (
-                        <Github className="w-4 h-4" />
-                      ) : link.label === 'Visit frostr.org' ? (
-                        <Globe className="w-4 h-4" />
-                      ) : link.label === 'Privacy Policy' ? (
-                        <ShieldCheck className="w-4 h-4" />
-                      ) : (
-                        <ExternalLink className="w-4 h-4" />
-                      )}
-                      {link.label}
-                    </span>
-                    <ArrowRight className="w-4 h-4" />
-                  </AppLink>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-[#ffffff10] bg-[#0c1424] overflow-hidden">
-            <div className="relative h-full min-h-[320px]">
-              <div className="absolute top-4 left-4 z-10 rounded-full border border-[#ffffff1a] bg-[#08111f]/85 px-3 py-1 text-xs uppercase tracking-[0.2em] text-gray-200 backdrop-blur">
-                App Store Preview
-              </div>
-              <img
-                src="/igloo-signer-app-store.jpg"
-                alt="Igloo Signer preview from the App Store listing"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </Card>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {appItems.map((item) => (
             <ResourceCard key={item.title} item={item} />
