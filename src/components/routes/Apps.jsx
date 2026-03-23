@@ -130,7 +130,7 @@ const legacyItems = [
 const getAppTypeStyles = (type) => {
   switch (type) {
     case 'Desktop App':
-      return 'text-[#00ff95] bg-[#00ff9515]';
+      return 'text-[#7aa2ff] bg-[#7aa2ff15]';
     case 'Browser Extension':
       return 'text-[#ff9500] bg-[#ff950015]';
     case 'Web App':
