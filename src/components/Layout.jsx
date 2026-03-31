@@ -58,6 +58,18 @@ function Layout({ error, roadmapEnabled = true }) {
               Apps
             </NavLink>
             <NavLink
+              to="/glossary"
+              className={({ isActive }) =>
+                `px-4 py-2 text-lg font-medium transition-colors ${
+                  isActive
+                    ? "text-[#00ff95] border-b-2 border-[#00ff95]"
+                    : "text-gray-400 hover:text-gray-200"
+                }`
+              }
+            >
+              Glossary
+            </NavLink>
+            <NavLink
               to="/media"
               className={({ isActive }) =>
                 `px-4 py-2 text-lg font-medium transition-colors ${
@@ -153,6 +165,19 @@ function Layout({ error, roadmapEnabled = true }) {
                 }
               >
                 Apps
+              </NavLink>
+              <NavLink
+                to="/glossary"
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `px-4 py-3 text-lg font-medium transition-colors rounded-md ${
+                    isActive
+                      ? "bg-[#00ff9520] text-[#00ff95]"
+                      : "text-gray-300 hover:bg-[#ffffff10]"
+                  }`
+                }
+              >
+                Glossary
               </NavLink>
               <NavLink
                 to="/media"

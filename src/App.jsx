@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import About from './components/routes/About';
 import Apps from './components/routes/Apps';
+import Glossary from './components/routes/Glossary';
 import Media from './components/routes/Media';
 import Privacy from './components/routes/Privacy';
 import Roadmap from './components/routes/Roadmap';
@@ -167,6 +168,7 @@ export default function App() {
         <Route path="/" element={<Layout error={error} roadmapEnabled={ROADMAP_ENABLED} />}>
           <Route index element={<About orgData={orgData} />} />
           <Route path="apps" element={<Apps />} />
+          <Route path="glossary" element={<Glossary />} />
           <Route path="media" element={<Media />} />
           <Route path="privacy" element={<Privacy />} />
           {ROADMAP_ENABLED && (
