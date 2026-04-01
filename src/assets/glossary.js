@@ -91,6 +91,18 @@ export const glossarySections = [
           '`npub` is your public Nostr identity. Your `npub` stays the same even when the private key is managed through FROSTR shares.'
       },
       {
+        id: 'bfgroup',
+        term: '`bfgroup`',
+        description:
+          '`bfgroup` is the bech32 prefix used at the start of a group credential. When users see `bfgroup...`, they are looking at the group-level package for a keyset.'
+      },
+      {
+        id: 'bfshare',
+        term: '`bfshare`',
+        description:
+          '`bfshare` is the bech32 prefix used at the start of a share credential. When users see `bfshare...`, they are looking at one signer share from a keyset.'
+      },
+      {
         id: 'group-credential',
         term: 'Group credential',
         aliases: ['`bfgroup...`'],
