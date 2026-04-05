@@ -1,4 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { CheckCircle2, Network, Binary } from 'lucide-react';
 import PropTypes from 'prop-types';
 
@@ -37,7 +37,11 @@ function Roadmap({ projectData }) {
   }
 
   return (
-    <>
+    <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
+      <CardHeader className="border-b border-[#ffffff0f]">
+        <h2 className="text-2xl font-semibold text-gray-200">Roadmap</h2>
+      </CardHeader>
+      <CardContent className="p-6">
       <div className="space-y-6">
         <div className="flex items-center gap-3">
           <CheckCircle2 className="w-6 h-6 text-[#00ff95]" />
@@ -52,7 +56,7 @@ function Roadmap({ projectData }) {
               rel="noopener noreferrer"
               className="block transform hover:scale-[1.02] transition-all duration-300"
             >
-              <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
+              <Card className="h-full border-0 bg-[#ffffff05] hover:bg-[#ffffff08] transition-colors overflow-hidden">
                 <CardContent className="p-6 relative z-10">
                   <h3 className="font-semibold text-lg mb-4 text-gray-200">
                     {item.content.title}
@@ -63,8 +67,8 @@ function Roadmap({ projectData }) {
                     )}
                     <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                       item.content.state === 'CLOSED' 
-                        ? 'bg-[#8957e520] text-[#8957e5] border border-[#8957e540]'
-                        : 'bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]'
+                        ? 'bg-[#8957e520] text-[#8957e5]'
+                        : 'bg-[#00ff9520] text-[#00ff95]'
                     }`}>
                       {item.content.state}
                     </div>
@@ -101,8 +105,8 @@ function Roadmap({ projectData }) {
         </div>
       </div>
 
-      <div className="space-y-6 mt-8">
-        <div className="flex items-center gap-3">
+      <div className="mt-10 pt-8 border-t border-[#ffffff0f]">
+        <div className="flex items-center gap-3 mb-6">
           <Network className="w-6 h-6 text-[#00f0ff]" />
           <h2 className="text-2xl font-semibold text-gray-200">Active Sprint Items</h2>
         </div>
@@ -115,7 +119,7 @@ function Roadmap({ projectData }) {
               rel="noopener noreferrer"
               className="block transform hover:scale-[1.02] transition-all duration-300"
             >
-              <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
+              <Card className="h-full border-0 bg-[#ffffff05] hover:bg-[#ffffff08] transition-colors overflow-hidden">
                 <CardContent className="p-6 relative z-10">
                   <h3 className="font-semibold text-lg mb-4 text-gray-200">
                     {item.content.title}
@@ -127,8 +131,8 @@ function Roadmap({ projectData }) {
                     {item.content?.state && (
                       <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                         item.content.state === 'CLOSED' 
-                          ? 'bg-[#8957e520] text-[#8957e5] border border-[#8957e540]'
-                          : 'bg-[#00ff9520] text-[#00ff95] border border-[#00ff9540]'
+                          ? 'bg-[#8957e520] text-[#8957e5]'
+                          : 'bg-[#00ff9520] text-[#00ff95]'
                       }`}>
                         {item.content.state}
                       </div>
@@ -166,8 +170,8 @@ function Roadmap({ projectData }) {
         </div>
       </div>
 
-      <div className="space-y-6 mt-8">
-        <div className="flex items-center gap-3">
+      <div className="mt-10 pt-8 border-t border-[#ffffff0f]">
+        <div className="flex items-center gap-3 mb-6">
           <Binary className="w-6 h-6 text-[#00f0ff]" />
           <h2 className="text-2xl font-semibold text-gray-200">Backlog</h2>
         </div>
@@ -180,7 +184,7 @@ function Roadmap({ projectData }) {
               rel="noopener noreferrer"
               className="block transform hover:scale-[1.02] transition-all duration-300"
             >
-              <Card className="h-full border-0 bg-[#161f33]/40 backdrop-blur-xl overflow-hidden relative group">
+              <Card className="h-full border-0 bg-[#ffffff05] hover:bg-[#ffffff08] transition-colors overflow-hidden">
                 <CardContent className="p-6">
                   <h3 className="font-medium text-lg text-gray-200">
                     {item.content?.title || 'Untitled Item'}
@@ -191,7 +195,8 @@ function Roadmap({ projectData }) {
           ))}
         </div>
       </div>
-    </>
+      </CardContent>
+    </Card>
   );
 }
 

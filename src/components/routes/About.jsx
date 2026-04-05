@@ -66,7 +66,10 @@ function About({ orgData }) {
   return (
     <>
       <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
-        <CardContent className="prose prose-invert max-w-none p-8">
+        <CardHeader className="border-b border-[#ffffff0f]">
+          <h2 className="text-2xl font-semibold text-gray-200">About FROSTR</h2>
+        </CardHeader>
+        <CardContent className="prose prose-invert max-w-none p-6">
           {orgData?.repository?.object?.text ? (
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}

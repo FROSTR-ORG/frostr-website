@@ -67,11 +67,11 @@ function GlossarySection({ section }) {
   return (
     <Card
       id={section.id}
-      className="border-0 bg-[#161f33]/40 shadow-2xl backdrop-blur-xl"
+      className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group"
     >
       <CardHeader className="border-b border-[#ffffff0f]">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-semibold text-gray-100">{section.title}</h2>
+        <div className="flex flex-col gap-2">
+          <h2 className="text-2xl font-semibold text-gray-200">{section.title}</h2>
           <p className="text-sm text-gray-400">{section.description}</p>
         </div>
       </CardHeader>
@@ -94,20 +94,12 @@ GlossarySection.propTypes = {
 function Glossary() {
   return (
     <div className="space-y-8">
-      <Card className="border-0 bg-[#161f33]/40 shadow-2xl backdrop-blur-xl">
+      <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
         <CardHeader className="border-b border-[#ffffff0f]">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <p className="text-sm uppercase tracking-[0.18em] text-[#00f0ff]">Simple Reference</p>
-              <h1 className="text-3xl font-semibold text-gray-100 md:text-4xl">FROSTR Glossary</h1>
-            </div>
-
-            <p className="max-w-4xl text-base leading-relaxed text-gray-300">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-2xl font-semibold text-gray-200">FROSTR Glossary</h2>
+            <p className="text-sm text-gray-400 max-w-3xl">
               {glossaryMeta.intro}
-            </p>
-
-            <p className="max-w-4xl text-sm leading-relaxed text-gray-500">
-              {glossaryMeta.note}
             </p>
           </div>
         </CardHeader>
