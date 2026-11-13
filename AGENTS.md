@@ -16,4 +16,4 @@ Automated testing is not wired up yet. When adding significant behavior, include
 Recent commits use short, imperative, lower-case messages (e.g., “add apps tab”). Mirror that style, preferring one topical change per commit. PRs should include a concise summary, reference any tracked issue numbers, list manual test steps, and attach screenshots or clips for UI changes. Mention required environment variables or migration steps so reviewers can reproduce your results.
 
 ## Security & Configuration Tips
-API-powered sections expect `VITE_GITHUB_API_KEY` in a local `.env` file; do not commit secrets. Validate that failures degrade gracefully by testing with the key unset. Share any new secrets or webhook requirements in the PR description so the deployment team can update project settings.
+Use unauthenticated public GitHub endpoints for browser metadata. Vite exposes every referenced `VITE_*` value to visitors; never put a GitHub token or other secret in those variables. Verify API failures show the public GitHub link. Projects integration remains disabled until a separately reviewed server-side design exists.

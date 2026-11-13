@@ -20,7 +20,7 @@ npm run preview  # Preview production build
 **Stack**: React 18 + Vite + Tailwind CSS + shadcn/ui components
 
 **Routing**: React Router v7 with nested routes
-- `App.jsx` - Root component with BrowserRouter, fetches GitHub org/project data
+- `App.jsx` - Root component with BrowserRouter, fetches public GitHub profile data
 - `Layout.jsx` - Shell with header navigation and mobile menu
 - Routes in `src/components/routes/`: About, Apps, Media, Roadmap
 
@@ -28,10 +28,10 @@ npm run preview  # Preview production build
 - Path alias `@/` maps to `src/` (configured in vite.config.mjs)
 - UI components in `src/components/ui/` follow shadcn/ui patterns (Card, Button, Alert, Input)
 - Uses `class-variance-authority` and `tailwind-merge` for component variants
-- GitHub GraphQL API integration for org data (requires `VITE_GITHUB_API_KEY` env var)
+- Public GitHub profile and members use unauthenticated requests; see AGENTS.md for credential rules.
 
 **Data flow**:
-- `App.jsx` fetches FROSTR-ORG GitHub organization data and project board data
+- `App.jsx` fetches the public FROSTR-ORG README and public members
 - `orgData` passed to About page (displays README from .github repo + team members)
-- `projectData` passed to Roadmap (GitHub Projects V2 integration, currently disabled via `ROADMAP_ENABLED` flag)
+- Roadmap routing is disabled; authenticated Projects requests have been removed.
 - Apps and Media pages use static data arrays defined in their respective components

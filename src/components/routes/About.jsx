@@ -62,7 +62,7 @@ MarkdownComponents.code.propTypes = {
   inline: PropTypes.bool
 };
 
-function About({ orgData }) {
+function About({ orgData, error }) {
   return (
     <>
       <Card className="border-0 bg-[#161f33]/40 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
@@ -78,7 +78,14 @@ function About({ orgData }) {
               {orgData.repository.object.text}
             </ReactMarkdown>
           ) : (
-            <p className="text-gray-300">Loading...</p>
+            <p className="text-gray-300">
+              {error ? (
+                <>
+                  GitHub information is temporarily unavailable. Visit the{' '}
+                  <a href="https://github.com/FROSTR-ORG" className="underline">FROSTR organization</a>.
+                </>
+              ) : 'Loading...'}
+            </p>
           )}
         </CardContent>
       </Card>
@@ -129,7 +136,8 @@ function About({ orgData }) {
 }
 
 About.propTypes = {
-  orgData: PropTypes.object
+  orgData: PropTypes.object,
+  error: PropTypes.string
 };
 
 export default About; 
